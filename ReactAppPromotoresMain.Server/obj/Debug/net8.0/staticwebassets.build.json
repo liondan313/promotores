@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "TqOj35Q9aqMOZTImtHjkw6pV4+i8x8hPbbZ4kWfJs+Y=",
+  "Source": "ReactAppPromotoresMain.Server",
+  "BasePath": "_content/ReactAppPromotoresMain.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\liond\\source\\repos\\promotores\\reactapppromotoresmain.client\\reactapppromotoresmain.client.esproj",
+      "Version": 2,
+      "Source": "reactapppromotoresmain.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

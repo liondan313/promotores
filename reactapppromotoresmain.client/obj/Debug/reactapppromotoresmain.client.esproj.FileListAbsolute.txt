@@ -1,0 +1,2 @@
+C:\Users\liond\source\repos\ReactAppPromotoresMain\reactapppromotoresmain.client\obj\Debug\reactapppromotoresmain.client.esproj.CoreCompileInputs.cache
+C:\Users\liond\source\repos\promotores\reactapppromotoresmain.client\obj\Debug\reactapppromotoresmain.client.esproj.CoreCompileInputs.cache
