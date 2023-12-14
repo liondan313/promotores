@@ -15,7 +15,6 @@ import ListadoProspectoVirtual from '../components/prospectos/ListadoProspectoVi
 export default function Prospectos() {
 
     const [prospectos, setProspectos] = useState([]);
-    const [prospectosArray, setProspectosArray] = useState([]);
     const [fetching, setFetching] = useState(true);
 
     
