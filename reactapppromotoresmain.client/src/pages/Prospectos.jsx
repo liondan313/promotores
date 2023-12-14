@@ -15,6 +15,7 @@ import ListadoProspectoVirtual from '../components/prospectos/ListadoProspectoVi
 export default function Prospectos() {
 
     const [prospectos, setProspectos] = useState([]);
+    const [prospectosArray, setProspectosArray] = useState([]);
     const [fetching, setFetching] = useState(true);
 
     
@@ -25,9 +26,10 @@ export default function Prospectos() {
         
         axios.get(PUBLIC_PROSPECTOS_ENDPOINT).then(response => {
 
-            console.log(response.data)
-            setProspectos(response.data);
+            console.log(response)
+            setProspectos(response);
             setFetching(false);
+            
         }).catch(e => {
             console.log(e);
             setFetching(false);
@@ -72,18 +74,18 @@ export default function Prospectos() {
             {fetching && <Placeholder></Placeholder>}
             {!fetching && prospectos.length === 0 && <NoProspecto text="No hay prospectos disponibles"></NoProspecto>}
             <div>
-                {prospectos && <ListadoProspectoVirtual prospectos={prospectos} />}
+                {prospectos && <ListadoProspectoVirtual datos={prospectos.data} />}
             </div>
 
 
             MOSTAR LISTADO
-            {prospectos.map((item) => (
+            {/*prospectos.map((item) => (
                 <div key={item.id}>
                     <p>ID: {item.id}</p>
                     <p>Nombre: {item.nombre}</p>
                     <p>Primer Apellido: {item.primerApellido}</p>
                 </div>
-            ))};
+            ))*/};
 
         </div>
     )
