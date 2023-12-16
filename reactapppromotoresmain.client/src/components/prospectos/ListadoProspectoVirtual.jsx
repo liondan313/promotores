@@ -11,7 +11,7 @@ import {
     TablePagination,
     Button,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete'; // Importa el ícono de eliminación de Material-UI
+import DeleteIcon from '@material-ui/icons/Star'; // Importa el ícono de eliminación de Material-UI
 import '../../css/MostrarListado.css';
 function ListadoProspectoVirtual({ datos }) {
     const [page, setPage] = useState(0);
@@ -52,11 +52,11 @@ function ListadoProspectoVirtual({ datos }) {
                                 <TableCell>
                                     <Button
                                         variant="outlined"
-                                        color="secondary"
+                                        color="blue"
                                         startIcon={<DeleteIcon />}
-                                        //onClick={() => deleteSupplier(dato.id)}
+                                        onClick={() => deleteSupplier(dato.id)}
                                     >
-                                        Delete
+                                        Evaluacion
                                     </Button>
                                 </TableCell>
                             </TableRow>
