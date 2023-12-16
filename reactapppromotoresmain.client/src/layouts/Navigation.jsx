@@ -1,15 +1,15 @@
 import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-//import { useSelector, useDispatch } from 'react-redux'
-//import { logoutUser } from '../actions/authActions';
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from '../actions/authActions';
 
 
 export default function Navigation() {
 
-    const loggedIn = ''; // useSelector(state => state.auth.loggedIn);
-    const user = ''; // useSelector(state => state.auth.user);
-    //const dispatch = useDispatch();
+    const loggedIn =  useSelector(state => state.auth.loggedIn);
+    const user = useSelector(state => state.auth.user);
+    const dispatch = useDispatch();
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
@@ -17,7 +17,7 @@ export default function Navigation() {
             <Navbar.Toggle aria-controls="main-menu"></Navbar.Toggle>
             <Navbar.Collapse id="main-menu">
                 <Nav className="mr-auto">
-                    {loggedIn && <Nav.Link as={NavLink} to={'/newpost'}>Crear Prospecto</Nav.Link>}
+                    {loggedIn && <Nav.Link as={NavLink} to={'/nuevoProspecto'}>Crear Prospecto</Nav.Link>}
                 </Nav>
                 <Nav >
                     {!loggedIn ? (
@@ -28,7 +28,7 @@ export default function Navigation() {
                     )
                         : (<NavDropdown title={user.sub} id="menu-dropdown">
                             <NavDropdown.Item as={NavLink} to={'/posts'}>Mis Prospectos</NavDropdown.Item>
-                            {/*<NavDropdown.Item onClick={() => dispatch(logoutUser())}>Cerrar sesion</NavDropdown.Item> */}
+                            <NavDropdown.Item onClick={() => dispatch(logoutUser())}>Cerrar sesion</NavDropdown.Item>
                         </NavDropdown>)
                     }
 

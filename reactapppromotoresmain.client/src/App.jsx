@@ -7,6 +7,8 @@ import Prospectos from "./pages/Prospectos";
 import SignUp from "./pages/SignUp";
 import { Provider } from 'react-redux';
 import store from "../store";
+import SignIn from "./pages/SignIn";
+import NuevoProspecto from "./pages/NuevoProspecto";
 
 function App() {
     
@@ -22,7 +24,9 @@ function App() {
                     
                     <Switch>
                         <Route exact path="/" component={Prospectos}></Route>
-                        <Route exact path="/signup" component={SignUp}></Route>
+                            <Route exact path="/signup" component={SignUp}></Route>
+                            <Route exact path="/signin" component={SignIn}></Route>
+                            <Route exact path="/nuevoProspecto" component={NuevoProspecto}></Route>
 
                         
                     </Switch>

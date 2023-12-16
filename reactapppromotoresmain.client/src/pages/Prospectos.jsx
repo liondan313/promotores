@@ -8,21 +8,14 @@ import Placeholder from '../components/utils/Placeholder';
 import ListadoProspectoVirtual from '../components/prospectos/ListadoProspectoVirtual';
 
 
-
-
-
-
 export default function Prospectos() {
 
     const [prospectos, setProspectos] = useState([]);
     const [fetching, setFetching] = useState(true);
-
     
     
     useEffect(() => {
 
-        //setFetching(false);
-        
         axios.get(PUBLIC_PROSPECTOS_ENDPOINT).then(response => {
 
             console.log(response)
@@ -77,7 +70,6 @@ export default function Prospectos() {
             </div>
 
 
-            MOSTAR LISTADO
             {/*prospectos.map((item) => (
                 <div key={item.id}>
                     <p>ID: {item.id}</p>
