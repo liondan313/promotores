@@ -9,6 +9,9 @@ import { Provider } from 'react-redux';
 import store from "../store";
 import SignIn from "./pages/SignIn";
 import NuevoProspecto from "./pages/NuevoProspecto";
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.min.css";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function App() {
     
@@ -21,7 +24,7 @@ function App() {
                     <Navigation></Navigation>
                 </div>
                 <Container>
-                    
+                    <ToastContainer />        
                     <Switch>
                         <Route exact path="/" component={Prospectos}></Route>
                             <Route exact path="/signup" component={SignUp}></Route>
