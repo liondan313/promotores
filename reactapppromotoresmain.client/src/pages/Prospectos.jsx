@@ -66,7 +66,7 @@ export default function Prospectos() {
             {fetching && <Placeholder></Placeholder>}
             {!fetching && prospectos.length === 0 && <NoProspecto text="No hay prospectos disponibles"></NoProspecto>}
             <div>
-                {prospectos && <ListadoProspectoVirtual datos={prospectos.data} />}
+                {prospectos && prospectos.length != 0 && <ListadoProspectoVirtual datos={prospectos.data} />}
             </div>
 
 
@@ -76,7 +76,7 @@ export default function Prospectos() {
                     <p>Nombre: {item.nombre}</p>
                     <p>Primer Apellido: {item.primerApellido}</p>
                 </div>
-            ))*/};
+            ))*/}
 
         </div>
     )

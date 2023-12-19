@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Star'; // Importa el ícono de eliminación de Material-UI
 import '../../css/MostrarListado.css';
+import { estatusProspectos } from '../../helpers/estatusProspectos';
 function ListadoProspectoVirtual({ datos }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -39,16 +40,24 @@ function ListadoProspectoVirtual({ datos }) {
                             <TableCell><strong>Nombre</strong></TableCell>
                             <TableCell><strong>Primer Apellido</strong></TableCell>
                             <TableCell><strong>Segundo Apellido</strong></TableCell>
-                            <TableCell><strong>Calle</strong></TableCell>
+                            <TableCell><strong>Estatus</strong></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {Array.isArray(datos) && datos.slice(startIndex, endIndex).map((dato) => (
                             <TableRow key={dato.id}>
                                 <TableCell>{dato.id}</TableCell>
-                                <TableCell>{dato.primerApellido}</TableCell>
-                                <TableCell>{dato.segundoApellido}</TableCell>
-                                <TableCell>{dato.calle}</TableCell>
+                                <TableCell>{dato.nombre}</TableCell>
+                                <TableCell>{dato.primer_apellido}</TableCell>
+                                <TableCell>{dato.segundo_apellido}</TableCell>
+                                <TableCell>
+
+                                    {dato.estatusprospecto_id === estatusProspectos.AUTORIZADO ? "AUTORIZADO" :                                         
+                                        dato.estatusprospecto_id === estatusProspectos.RECHAZADO ? "RECHAZADO" :
+                                                "ENVIADO"
+                                     }
+                                    
+                                </TableCell>
                                 <TableCell>
                                     <Button
                                         variant="outlined"

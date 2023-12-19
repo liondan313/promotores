@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { estatusProspectos } from '../../helpers/estatusProspectos';
+import { tipoUsuario } from '../../helpers/tipoUsuario';
+
 
 export default function SignUpForm({ errors, onSubmitCallback }) {
 
@@ -7,10 +10,11 @@ export default function SignUpForm({ errors, onSubmitCallback }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
-
+    const [tipoUsuarioId, setTipoUsuarioId] = useState("");
+    
     const submitForm = (e) => {
         e.preventDefault();
-        onSubmitCallback({ email, password, firstName, lastName });
+        onSubmitCallback({ email, password, firstName, lastName, tipoUsuarioId });
     }
 
     return (
@@ -77,6 +81,38 @@ export default function SignUpForm({ errors, onSubmitCallback }) {
                     {errors.password}
                 </Form.Control.Feedback>
             </Form.Group>
+
+            <Col md="6" xs="12">
+                <Form.Group controlId="estatusUsuarioId">
+                    <Form.Label>Tipo de usuario</Form.Label>
+                    <div>
+                        <Form.Check
+                            onChange={e => setTipoUsuarioId(e.target.value)}
+                            checked={parseInt(tipoUsuarioId) === tipoUsuario.PROMOTOR}
+                            value={tipoUsuario.PROMOTOR}
+                            inline
+                            label="Promotor"
+                            name="tipoUsuarioId"
+                            type="radio"
+                            required
+                        ></Form.Check>
+
+                        <Form.Check
+                            onChange={e => setTipoUsuarioId(e.target.value)}
+                            checked={parseInt(tipoUsuarioId) === tipoUsuario.SUPERVISOR}
+                            value={tipoUsuario.SUPERVISOR}
+                            inline
+                            label="Supervisor"
+                            name="tipoUsuarioId"
+                            type="radio"
+                            required
+                        ></Form.Check>
+                    </div>
+                    <Form.Control.Feedback type="invalid">
+                        {errors.tipoUsuarioId}
+                    </Form.Control.Feedback>
+                </Form.Group>
+            </Col>
 
             <Button variant="primary" type="submit">Crear cuenta</Button>
         </Form>

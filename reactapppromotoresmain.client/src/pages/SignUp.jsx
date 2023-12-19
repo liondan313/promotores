@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 import { isObjEmpty } from '../helpers/helpers';
 import { registerUser, loginUser } from '../actions/authActions';
+import { toast } from 'react-toastify';
 
 import { useHistory } from 'react-router-dom';
 
@@ -22,10 +23,10 @@ export default function SignIn() {
         }
     });
     
-    const register = ({ email, password, firstName, lastName }) => {
+    const register = ({ email, password, firstName, lastName, tipoUsuarioId}) => {
         const errors = {};
         setErrors(errors);
-
+                
         if (!validator.isEmail(email)) {
             errors.email = "El correo electronico es invalido";
         }
@@ -46,10 +47,11 @@ export default function SignIn() {
             setErrors(errors);
             return;
         }
-               
-        dispatch(registerUser({ email, password, firstName, lastName }))
+
+        dispatch(registerUser({ email, password, firstName, lastName, tipoUsuarioId }))
             .then(response => {
                 dispatch(loginUser({ email, password }));
+                toast.info("El usuario se ha creado correctamente", { position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000 });
             })
             .catch(err => {
                 setErrors({ registerError: err.response.data.message });
