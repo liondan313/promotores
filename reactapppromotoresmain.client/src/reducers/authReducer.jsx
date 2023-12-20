@@ -1,6 +1,6 @@
 import { SET_CURRENT_USER } from "../actions/types";
 
-const initialState = { loggedIn: false, user: {} };
+const initialState = { loggedIn: false, user: {}, tipoUser: 0 };
 
 export default function authReducer(state = initialState, action) {
     const { type, payload } = action;
@@ -10,7 +10,8 @@ export default function authReducer(state = initialState, action) {
             return {
                 ...state,
                 loggedIn: payload.loggedIn,
-                user: payload.user
+                user: payload.user,
+                tipoUser: payload.tipoUser
             }
         default:
             return state;

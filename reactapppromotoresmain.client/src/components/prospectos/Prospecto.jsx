@@ -7,6 +7,7 @@ function Prospecto({ prospectos, renderControls }) {
 
         <div>            
             <ListadoProspecto prospectos={prospectos} />
+
         </div>
 
     );

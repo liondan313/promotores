@@ -6,15 +6,28 @@ import NoProspecto from '../components/utils/NoProspecto';
 import { PUBLIC_PROSPECTOS_ENDPOINT } from '../helpers/endpoints';
 import Placeholder from '../components/utils/Placeholder';
 import ListadoProspectoVirtual from '../components/prospectos/ListadoProspectoVirtual';
-
+import { useSelector } from 'react-redux';
 
 export default function Prospectos() {
 
     const [prospectos, setProspectos] = useState([]);
     const [fetching, setFetching] = useState(true);
-    
-    
+    const loggedIn = useSelector(state => state.auth.loggedIn);
+    const userIn = useSelector(state => state.auth.tipoUser);
+
     useEffect(() => {
+
+        //alert(loggedIn);
+
+        //const keys = Object.keys(userIn);
+
+        //alert(userIn);
+        // Iterar sobre las claves
+        /*for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            const value = userIn[key];
+            console.log(`Clave: ${key}, Valor: ${value}`);
+        }*/
 
         axios.get(PUBLIC_PROSPECTOS_ENDPOINT).then(response => {
 

@@ -14,9 +14,17 @@ import {
 import DeleteIcon from '@material-ui/icons/Star'; // Importa el ícono de eliminación de Material-UI
 import '../../css/MostrarListado.css';
 import { estatusProspectos } from '../../helpers/estatusProspectos';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { tipoUsuario } from '../../helpers/tipoUsuario';
+import { useHistory } from 'react-router-dom';
+
 function ListadoProspectoVirtual({ datos }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const loggedIn = useSelector(state => state.auth.loggedIn);
+    const tipoUser = useSelector(state => state.auth.tipoUser);
+    const history = useHistory();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -29,6 +37,12 @@ function ListadoProspectoVirtual({ datos }) {
 
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
+
+    const evaluarOpcion = (id) => {
+        
+        history.push(`/evaluarprospecto/${id}`);
+        
+    };
 
     return (
         <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
@@ -48,8 +62,8 @@ function ListadoProspectoVirtual({ datos }) {
                             <TableRow key={dato.id}>
                                 <TableCell>{dato.id}</TableCell>
                                 <TableCell>{dato.nombre}</TableCell>
-                                <TableCell>{dato.primer_apellido}</TableCell>
-                                <TableCell>{dato.segundo_apellido}</TableCell>
+                                <TableCell>{dato.primer_apellido || dato.primerApellido}</TableCell>
+                                <TableCell>{dato.segundo_apellido || dato.segundoApellido}</TableCell>
                                 <TableCell>
 
                                     {dato.estatusprospecto_id === estatusProspectos.AUTORIZADO ? "AUTORIZADO" :                                         
@@ -59,14 +73,23 @@ function ListadoProspectoVirtual({ datos }) {
                                     
                                 </TableCell>
                                 <TableCell>
-                                    <Button
-                                        variant="outlined"
-                                        color="blue"
-                                        startIcon={<DeleteIcon />}
-                                        onClick={() => deleteSupplier(dato.id)}
-                                    >
-                                        Evaluacion
-                                    </Button>
+
+                                    {loggedIn && tipoUser === tipoUsuario.SUPERVISOR && 
+                                        <Button
+                                            variant="outlined"
+                                            color="blue"
+                                            startIcon={<DeleteIcon />}
+                                            onClick={() => evaluarOpcion(dato.prospectoId || dato.prospecto_id)}
+                                        >
+                                            Evaluar
+                                        </Button>
+                                    }
+
+                                    {loggedIn && tipoUser === tipoUsuario.PROMOTOR && 
+                                        <Link to={`/prospecto/${dato.prospecto_id||dato.prospectoId}`}>VER INF</Link>}
+                                    
+
+
                                 </TableCell>
                             </TableRow>
                         ))}

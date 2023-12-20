@@ -1,23 +1,33 @@
 import { useState } from 'react';
 
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import SalirProspectoButton from '../prospectos/Buttons/SalirProspectoButton';
+import { estatusProspectos } from '../../helpers/estatusProspectos';
 
-export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButton = "Crear Prospecto" }) {
+import { tipoUsuario } from '../../helpers/tipoUsuario';
 
-    const [nombre, setNombre] = useState("");
-    const [primerApellido, setPrimerApellido] = useState("");
-    const [segundoApellido, setSegundoApellido] = useState("");
-    const [calle, setCalle] = useState("");
-    const [numero, setNumero] = useState("");
-    const [colonia, setColonia] = useState("");
-    const [codigoPostal, setCodigoPostal] = useState("");
-    const [telefono, setTelefono] = useState("");
-    const [rfc, setRfc] = useState("");
+import { useSelector } from 'react-redux';
+
+
+export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre, pPrimerApellido, pSegundoApellido, pCalle, pNumero, pColonia, pCodigoPostal, pTelefono, pRfc, pEstatusProspectoId, readOnlyMode, textButton = "Crear Prospecto", pObservaciones }) {
+
+    const [nombre, setNombre] = useState(pNombre);
+    const [primerApellido, setPrimerApellido] = useState(pPrimerApellido);
+    const [segundoApellido, setSegundoApellido] = useState(pSegundoApellido);
+    const [calle, setCalle] = useState(pCalle);
+    const [numero, setNumero] = useState(pNumero);
+    const [colonia, setColonia] = useState(pColonia);
+    const [codigoPostal, setCodigoPostal] = useState(pCodigoPostal);
+    const [telefono, setTelefono] = useState(pTelefono);
+    const [rfc, setRfc] = useState(pRfc);
+    const [observaciones, setObservaciones] = useState(pObservaciones);
     const [estatusProspectoId, setEstatusProspectoId] = useState("1");
+
+    const tipoUser = useSelector(state => state.auth.tipoUser);
 
     const submitForm = (e) => {
         e.preventDefault();
-        onSubmitCallback({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId });
+        onSubmitCallback({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId, observaciones });
     }
 
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -28,44 +38,23 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
     };
 
     const handleUpload = () => {
-        // Aquí puedes enviar el archivo al servicio REST
-        // Puedes utilizar la función fetch u otras bibliotecas como axios.
-
-        // Ejemplo de uso de fetch:
         const formData = new FormData();
         selectedFiles.forEach((file, index) => {
             formData.append(`file${index + 1}`, file);
         });
 
         console.log("Imprimir --> " + formData);
-
-        /*
-         fetch('URL_DEL_SERVICIO_REST', {
-          method: 'POST',
-          body: formData,
-        })
-          .then(response => response.json())
-          .then(data => {
-            // Manejar la respuesta del servicio REST si es necesario
-            console.log('Respuesta del servicio REST:', data);
-          })
-          .catch(error => {
-            console.error('Error al enviar los archivos:', error);
-          });
-            */
+        
     };
 
     return (
-
-        
-
-        <Form onSubmit={submitForm}>
-            
+        <Form onSubmit={submitForm}>            
             <Row>
                 <Col md="5" xs="12">
                     <Form.Group control="nombre">
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={nombre}
                             onChange={e => setNombre(e.target.value)}
@@ -81,6 +70,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                     <Form.Group control="primerApellido">
                         <Form.Label>Primer apellido</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={primerApellido}
                             onChange={e => setPrimerApellido(e.target.value)}
@@ -96,6 +86,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                     <Form.Group control="segundoApellido">
                         <Form.Label>Segundo apellido</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={segundoApellido}
                             onChange={e => setSegundoApellido(e.target.value)}
@@ -115,6 +106,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                     <Form.Group control="calle">
                         <Form.Label>Calle</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={calle}
                             onChange={e => setCalle(e.target.value)}
@@ -128,12 +120,13 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                 </Col>
                 <Col md="5" xs="12">
                     <Form.Group control="numero">
-                        <Form.Label>Número</Form.Label>
+                        <Form.Label>Numero</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={numero}
                             onChange={e => setNumero(e.target.value)}
-                            placeholder="Número"
+                            placeholder="Numero"
                             isInvalid={errors.numero}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -148,6 +141,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                     <Form.Group control="colonia">
                         <Form.Label>Colonia</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={colonia}
                             onChange={e => setColonia(e.target.value)}
@@ -164,6 +158,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
                     <Form.Group control="codigoPostal">
                         <Form.Label>Codigo postal</Form.Label>
                         <Form.Control
+                            readOnly={readOnlyMode}
                             type="text"
                             value={codigoPostal}
                             onChange={e => setCodigoPostal(e.target.value)}
@@ -181,6 +176,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
             <Form.Group control="telefono">
                 <Form.Label>Telefono</Form.Label>
                 <Form.Control
+                    readOnly={readOnlyMode}
                     type="text"
                     value={telefono}
                     onChange={e => setTelefono(e.target.value)}
@@ -195,6 +191,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
             <Form.Group control="rfc">
                 <Form.Label>Rfc</Form.Label>
                 <Form.Control
+                    readOnly={readOnlyMode}
                     type="text"
                     value={rfc}
                     onChange={e => setRfc(e.target.value)}
@@ -207,24 +204,82 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, textButt
             </Form.Group>
 
 
-            <Form>
+            {/*    <Form>
                 <Form.Group controlId="formFile" className="mb-3">
                     <Form.Label>Seleccionar documentos</Form.Label>
                     <Form.Control type="file" multiple onChange={handleFileChange} />
                 </Form.Group>
 
-                {/*<Button variant="primary" onClick={handleUpload}>
+                <Button variant="primary" onClick={handleUpload}>
                     Cargar documentos
                 </Button>
-                */}
+                
 
-            </Form>
+            </Form> */}
 
+            {tipoUser === tipoUsuario.SUPERVISOR && 
+                <div>
+                    <Row>
+                    <Col md="6" xs="12">
+                            <Form.Group controlId="estatusProspectoId">
+                                <Form.Label>Tipo de evaluacion</Form.Label>
+                                <div>
+                                    <Form.Check 
+                                        onChange={e => setEstatusProspectoId(e.target.value) }
+                                        //checked={ parseInt(exposureId) === exposures.PRIVATE }
+                                        value={estatusProspectos.AUTORIZADO}
+                                        inline
+                                        label="Autorizado"
+                                        name="estatusProspectoId"
+                                        type="radio"
+                                        required
+                                    ></Form.Check>
 
+                                    <Form.Check 
+                                        onChange={e => setEstatusProspectoId(e.target.value) }
+                                        //checked={ parseInt(exposureId) === exposures.PUBLIC }
+                                        value={estatusProspectos.RECHAZADO}
+                                        inline
+                                        label="Rechazado"
+                                        name="estatusProspectoId"
+                                        type="radio"
+                                        required
+                                    ></Form.Check>
+                                </div>
+
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.estatusProspectoIdRadio }
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Form.Group control="observaciones">
+                        <Form.Label>Observaciones</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={10}
+                            value={observaciones}
+                            onChange={e => setObservaciones(e.target.value)}
+                            isInvalid={errors.observacionesderechazo}                            
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {errors.observacionesderechazo }
+                        </Form.Control.Feedback>
+                        </Form.Group>
+                </div>
+            }
             <br>
             </br>
 
-            <Button variant="primary" type="submit">{textButton}</Button>
+            <Row>
+                <Col md="2" xs="2">
+                    <Button variant="primary" type="submit">{textButton}</Button>
+                </Col>
+                <Col md="2" xs="2">
+                    <SalirProspectoButton postId={nombre} title={nombre}></SalirProspectoButton>
+                </Col>
+            </Row>
         </Form>
     )
 }

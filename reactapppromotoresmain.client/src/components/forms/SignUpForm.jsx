@@ -88,7 +88,7 @@ export default function SignUpForm({ errors, onSubmitCallback }) {
                     <div>
                         <Form.Check
                             onChange={e => setTipoUsuarioId(e.target.value)}
-                            checked={parseInt(tipoUsuarioId) === tipoUsuario.PROMOTOR}
+                            //checked={parseInt(tipoUsuarioId) === tipoUsuario.PROMOTOR}
                             value={tipoUsuario.PROMOTOR}
                             inline
                             label="Promotor"
@@ -96,10 +96,10 @@ export default function SignUpForm({ errors, onSubmitCallback }) {
                             type="radio"
                             required
                         ></Form.Check>
-
+                        <br></br>
                         <Form.Check
                             onChange={e => setTipoUsuarioId(e.target.value)}
-                            checked={parseInt(tipoUsuarioId) === tipoUsuario.SUPERVISOR}
+                            //checked={parseInt(tipoUsuarioId) === tipoUsuario.SUPERVISOR}
                             value={tipoUsuario.SUPERVISOR}
                             inline
                             label="Supervisor"

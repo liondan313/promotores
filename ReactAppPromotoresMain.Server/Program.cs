@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using ReactAppPromotoresMain.Server.Context;
+using System.Globalization;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +19,11 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+
+
+//CONTROLLERS DB CONTEXT
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("data source=promotoressrv.database.windows.net; initial catalog=promotores2; user id=liondan313; password=Daniel9238; MultipleActiveResultSets=true"));
 
 
 var app = builder.Build();

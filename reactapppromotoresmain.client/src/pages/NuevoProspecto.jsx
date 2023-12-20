@@ -17,11 +17,11 @@ export default function NuevoProspecto() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    //const login = ({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc }) => {
     const createProspecto = async ({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId }) => {
         const errors = {};
         setErrors(errors);
-                
+
+        
         if (validator.isEmpty(nombre)) {
             errors.nombre = "El nombre es obligatorio";
         }
@@ -58,23 +58,27 @@ export default function NuevoProspecto() {
         if (validator.isEmpty(rfc)) {
             errors.rfc = "El RFC es obligatorio";
         }
-           
+       
 
         if (!isObjEmpty(errors)) {
             setErrors(errors);
             return;
         }
-       
+
+        
         try {
+
+            console.log("LISTADOOOOOOOOOOOOOO");
+            console.log({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId });
+            console.log("TERMINA LISTADO");
+
             const response = await axios.post(CREATE_PROSPECTOS_ENDPOINT, { nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId });
-            //await dispatch(getUserPosts());
+            await dispatch(getUserPosts());
             toast.info("El prospecto se ha creado correctamente", { position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000 });
-            //history.push(`/prospecto/${response.data.postId}`)
-            history.push(`/`)
+            history.push(`/prospecto/${response.data.prospectoId}`)            
         } catch (err) {
             setErrors({ newpost: err.response.data.message });
         }
-
         
     }
 
@@ -89,7 +93,9 @@ export default function NuevoProspecto() {
                         {errors.newpost && <Alert variant="danger">{errors.auth}</Alert>}
 
                         <h3>Crear prospecto</h3><hr></hr>
-                        <NuevoProspecto2Form errors={errors} onSubmitCallback={createProspecto}></NuevoProspecto2Form>
+                        <NuevoProspecto2Form
+                            textButton="Enviar"
+                            errors={errors} onSubmitCallback={createProspecto}></NuevoProspecto2Form>
 
                     </Card>
                 </Col>

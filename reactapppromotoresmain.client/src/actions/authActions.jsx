@@ -7,6 +7,8 @@ import setAuthToken from '../helpers/setAuthToken';
 
 export const loginUser = (userData) => dispatch => {
 
+    //const { tipoUsuarioId } = userData;
+    
     return new Promise((resolve, reject) => {
         axios.post(LOGIN_ENDPOINT, userData, {
             headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
@@ -20,7 +22,17 @@ export const loginUser = (userData) => dispatch => {
 
             const decoded = jwt_decode(authorization);
 
-            dispatch(setCurrentUser({ user: decoded, loggedIn: true }));
+            var tipoUsuarioIdVar = 0;
+
+            dispatch(getUser({}))
+                .then(response => {
+                    const { tipoUsuarioId } = response.data;
+                    tipoUsuarioIdVar = tipoUsuarioId;
+                    
+                    dispatch(setCurrentUser({ user: decoded, loggedIn: true, tipoUser: tipoUsuarioIdVar }));
+
+                })
+               
 
             resolve(response);
         }).catch(error => {
@@ -33,8 +45,8 @@ export const loginUser = (userData) => dispatch => {
 export const registerUser = (userData) => dispatch => {
     return new Promise((resolve, reject) => {
         axios.post(REGISTER_ENDPOINT, userData, {
-            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
-        }).then(response => {
+            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }            
+        }).then(response => {            
             resolve(response);
         }).catch(error => {
             reject(error);
@@ -42,10 +54,42 @@ export const registerUser = (userData) => dispatch => {
     });
 }
 
-export const setCurrentUser = ({ user, loggedIn }) => {
+export const getUser = (userData) => dispatch => {
+    return new Promise((resolve, reject) => {
+        
+        axios.get(REGISTER_ENDPOINT, userData, {
+            headers: { 'Accept': 'application/json', 'Content-type': 'application/json' }
+        }).then(response => {
+            
+
+            /*
+            const keys = Object.keys(response);
+
+            // Iterar sobre las claves
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                const value = response[key];
+                alert(`Clave: ${key}, Valor: ${value}`);
+            }
+
+            const { tipoUsuarioId } = response.data;
+            alert(tipoUsuarioId);
+
+            //dispatch(setCurrentUser({ tipoUser: tipoUsuarioId }));
+            */
+
+            resolve(response);
+        }).catch(error => {
+            reject(error);
+        });
+    });
+}
+
+
+export const setCurrentUser = ({ user, loggedIn, tipoUser }) => {
     return {
         type: SET_CURRENT_USER,
-        payload: { user, loggedIn }
+        payload: { user, loggedIn, tipoUser }
     };
 }
 
@@ -56,6 +100,7 @@ export const logoutUser = () => dispatch => {
 
     dispatch(setCurrentUser({
         user: {},
-        loggedIn: false
+        loggedIn: false,
+        tipoUser: 0
     }));
 }

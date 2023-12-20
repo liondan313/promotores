@@ -5,7 +5,7 @@ import SignInForm from '../components/forms/SignInForm';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 import { isObjEmpty } from '../helpers/helpers';
-import { loginUser } from '../actions/authActions';
+import { loginUser, getUser } from '../actions/authActions';
 import { useHistory } from 'react-router-dom';
 
 export default function SignIn() {
@@ -41,7 +41,7 @@ export default function SignIn() {
 
         dispatch(loginUser({ email, password }))
             .then(response => {
-
+                
             })
             .catch(err => {
                 setErrors({ auth: "No se puede iniciar sesion con esos credenciales" });

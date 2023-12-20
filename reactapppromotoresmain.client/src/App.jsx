@@ -12,6 +12,11 @@ import NuevoProspecto from "./pages/NuevoProspecto";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import PrivateRoute from "./components/utils/PrivateRoute";
+import UsersPosts from "./pages/UsersPosts";
+import ProspectoDetalle from "./pages/ProspectoDetalle";
+import EvaluarProspecto from "./pages/EvaluarProspecto";
+
 
 function App() {
     
@@ -30,6 +35,10 @@ function App() {
                             <Route exact path="/signup" component={SignUp}></Route>
                             <Route exact path="/signin" component={SignIn}></Route>
                             <Route exact path="/nuevoProspecto" component={NuevoProspecto}></Route>
+                            <Route exact path="/prospecto/:id" component={ProspectoDetalle}></Route>
+                            <PrivateRoute exact path="/prospectos" component={UsersPosts}></PrivateRoute>
+                            <PrivateRoute exact path="/evaluarprospecto/:id" component={EvaluarProspecto}></PrivateRoute>
+
 
                         
                     </Switch>

@@ -47,10 +47,10 @@ export default function SignIn() {
             setErrors(errors);
             return;
         }
-
+        
         dispatch(registerUser({ email, password, firstName, lastName, tipoUsuarioId }))
             .then(response => {
-                dispatch(loginUser({ email, password }));
+                dispatch(loginUser({ email, password }));                
                 toast.info("El usuario se ha creado correctamente", { position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000 });
             })
             .catch(err => {
