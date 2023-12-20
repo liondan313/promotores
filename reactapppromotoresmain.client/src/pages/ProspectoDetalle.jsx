@@ -62,6 +62,8 @@ export default function ProspectoDetalle() {
                                 pCodigoPostal={post.codigoPostal}
                                 pTelefono={post.telefono}
                                 pRfc={post.rfc}
+                                pObservaciones={post.observaciones}
+                                pEstatusProspectoId={post.estatusProspectoId}
                                 textButton="Regresar"
                                 errors={errors} onSubmitCallback={createProspecto}></NuevoProspecto2Form>
 

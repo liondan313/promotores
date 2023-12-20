@@ -18,8 +18,11 @@ import ProspectoDetalle from "./pages/ProspectoDetalle";
 import EvaluarProspecto from "./pages/EvaluarProspecto";
 
 
+checkForToken();
+
 function App() {
     
+
 
     return (
         <div>

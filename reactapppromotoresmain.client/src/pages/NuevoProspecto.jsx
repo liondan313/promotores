@@ -17,7 +17,39 @@ export default function NuevoProspecto() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const createProspecto = async ({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId }) => {
+    
+
+    const handleUpload = async (prospectoId, selectedFiles) => {
+        try {
+            
+            const formData = new FormData();
+
+            selectedFiles.forEach((selectedFile, index) => {
+                formData.append('nombre', selectedFile.fileName);
+                formData.append('archivo', selectedFile.file); // Reemplaza con el objeto de archivo seleccionado
+            });
+
+            formData.append('prospectoId', 1);
+
+            const response = await fetch('http://localhost:5001/documentos/guardardocumento', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                console.log('Archivos subidos correctamente');
+            } else {
+                console.error('Error al subir los archivos');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    };
+
+
+    
+
+    const createProspecto = async ({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId, selectedFiles }) => {
         const errors = {};
         setErrors(errors);
 
@@ -38,9 +70,19 @@ export default function NuevoProspecto() {
             errors.calle = "La calle es obligatorio";
         }
 
+        if (validator.isEmpty(colonia)) {
+            errors.colonia = "La colonia es obligatorio";
+        }
+
         if (validator.isEmpty(numero)) {
             errors.numero = "El numero de la calle es obligatorio";
         }
+
+        if (!validator.isNumeric(numero)) {
+            errors.numero = "El numero de la calle debe ser un numero";
+        }
+
+        
 
         
         if (validator.isEmpty(colonia)) {
@@ -73,6 +115,9 @@ export default function NuevoProspecto() {
             console.log("TERMINA LISTADO");
 
             const response = await axios.post(CREATE_PROSPECTOS_ENDPOINT, { nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId });
+                        
+            handleUpload(response.data.prospectoId, selectedFiles);
+
             await dispatch(getUserPosts());
             toast.info("El prospecto se ha creado correctamente", { position: toast.POSITION.BOTTOM_CENTER, autoClose: 2000 });
             history.push(`/prospecto/${response.data.prospectoId}`)            

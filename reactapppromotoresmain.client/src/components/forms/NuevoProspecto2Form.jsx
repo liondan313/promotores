@@ -9,7 +9,7 @@ import { tipoUsuario } from '../../helpers/tipoUsuario';
 import { useSelector } from 'react-redux';
 
 
-export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre, pPrimerApellido, pSegundoApellido, pCalle, pNumero, pColonia, pCodigoPostal, pTelefono, pRfc, pEstatusProspectoId, readOnlyMode, textButton = "Crear Prospecto", pObservaciones }) {
+export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre, pPrimerApellido, pSegundoApellido, pCalle, pNumero, pColonia, pCodigoPostal, pTelefono, pRfc, pEstatusProspectoId="1", readOnlyMode, textButton = "Crear Prospecto", pObservaciones="" }) {
 
     const [nombre, setNombre] = useState(pNombre);
     const [primerApellido, setPrimerApellido] = useState(pPrimerApellido);
@@ -21,31 +21,32 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
     const [telefono, setTelefono] = useState(pTelefono);
     const [rfc, setRfc] = useState(pRfc);
     const [observaciones, setObservaciones] = useState(pObservaciones);
-    const [estatusProspectoId, setEstatusProspectoId] = useState("1");
+    const [estatusProspectoId, setEstatusProspectoId] = useState(pEstatusProspectoId);
+
 
     const tipoUser = useSelector(state => state.auth.tipoUser);
 
     const submitForm = (e) => {
         e.preventDefault();
-        onSubmitCallback({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId, observaciones });
+        onSubmitCallback({ nombre, primerApellido, segundoApellido, calle, numero, colonia, codigoPostal, telefono, rfc, estatusProspectoId, observaciones, selectedFiles });
     }
 
     const [selectedFiles, setSelectedFiles] = useState([]);
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setSelectedFiles([...selectedFiles, ...files]);
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+        const updatedFiles = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            // Asignar un nombre al archivo, por ejemplo, usando la marca de tiempo actual
+            const fileName = `${Date.now()}_${file.name}`;
+            updatedFiles.push({ file, fileName });
+        }
+
+        setSelectedFiles(updatedFiles);
     };
 
-    const handleUpload = () => {
-        const formData = new FormData();
-        selectedFiles.forEach((file, index) => {
-            formData.append(`file${index + 1}`, file);
-        });
-
-        console.log("Imprimir --> " + formData);
-        
-    };
 
     return (
         <Form onSubmit={submitForm}>            
@@ -147,6 +148,7 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
                             onChange={e => setColonia(e.target.value)}
                             placeholder="Colonia"
                             isInvalid={errors.colonia}
+                            required
                         />
                         <Form.Control.Feedback type="invalid">
                             {errors.colonia}
@@ -204,18 +206,16 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
             </Form.Group>
 
 
-            {/*    <Form>
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Seleccionar documentos</Form.Label>
-                    <Form.Control type="file" multiple onChange={handleFileChange} />
-                </Form.Group>
+            <Form.Group controlId="formFile" className="mb-3">
+                <Form.Label>Seleccionar documentos</Form.Label>
+                <Form.Control type="file" multiple onChange={handleFileChange} />
+            </Form.Group>
 
-                <Button variant="primary" onClick={handleUpload}>
-                    Cargar documentos
-                </Button>
-                
-
-            </Form> */}
+            <ul>
+                {selectedFiles.map((selectedFile, index) => (
+                    <li key={index}>{selectedFile.fileName}</li>
+                ))}
+            </ul>
 
             {tipoUser === tipoUsuario.SUPERVISOR && 
                 <div>
@@ -225,8 +225,8 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
                                 <Form.Label>Tipo de evaluacion</Form.Label>
                                 <div>
                                     <Form.Check 
-                                        onChange={e => setEstatusProspectoId(e.target.value) }
-                                        //checked={ parseInt(exposureId) === exposures.PRIVATE }
+                                        onChange={e => setEstatusProspectoId(e.target.value)}
+                                        checked={parseInt(estatusProspectoId) === estatusProspectos.AUTORIZADO}
                                         value={estatusProspectos.AUTORIZADO}
                                         inline
                                         label="Autorizado"
@@ -236,8 +236,8 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
                                     ></Form.Check>
 
                                     <Form.Check 
-                                        onChange={e => setEstatusProspectoId(e.target.value) }
-                                        //checked={ parseInt(exposureId) === exposures.PUBLIC }
+                                        onChange={e => setEstatusProspectoId(e.target.value)}
+                                        checked={parseInt(estatusProspectoId) === estatusProspectos.RECHAZADO}
                                         value={estatusProspectos.RECHAZADO}
                                         inline
                                         label="Rechazado"
@@ -261,10 +261,10 @@ export default function NuevoProspecto2Form({ errors, onSubmitCallback, pNombre,
                             rows={10}
                             value={observaciones}
                             onChange={e => setObservaciones(e.target.value)}
-                            isInvalid={errors.observacionesderechazo}                            
+                            isInvalid={errors.observaciones}                            
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errors.observacionesderechazo }
+                            {errors.observaciones}
                         </Form.Control.Feedback>
                         </Form.Group>
                 </div>

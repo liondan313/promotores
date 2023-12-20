@@ -32,7 +32,9 @@ export default function EvaluarProspecto() {
         const errors = {};
         setErrors(errors);
 
+
         
+
         if (validator.isEmpty(nombre)) {
             errors.nombre = "El nombre es obligatorio";
         }
@@ -41,9 +43,8 @@ export default function EvaluarProspecto() {
             errors.estatusProspectoIdRadio = "El estatus del prospecto es obligatorio";
 
             if (estatusProspectoId === estatusProspectos.RECHAZADO) {
-                if (validator.isEmpty(observaciones)) {
-                    alert("hola22");
-                    errors.observacionesderechazo = "Las observaciones es obligatoria si se rechaza el prospecto";
+                if (validator.isEmpty(observaciones)) {                    
+                    errors.observaciones = "Las observaciones es obligatoria si se rechaza el prospecto";
                 }
             }
         }
@@ -95,6 +96,8 @@ export default function EvaluarProspecto() {
                                 pColonia={post.colonia}
                                 pCodigoPostal={post.codigoPostal}
                                 pTelefono={post.telefono}
+                                pObservaciones={post.observaciones}
+                                pEstatusProspectoId={post.estatusProspectoId}
                                 pRfc={post.rfc}
                                 textButton="Evaluar"                            
                                 onSubmitCallback={editPost}

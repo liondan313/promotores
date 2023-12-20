@@ -11,10 +11,11 @@ import {
     TablePagination,
     Button,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Star'; // Importa el ícono de eliminación de Material-UI
+import EvaluarIcon from '@material-ui/icons/Star'; 
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import '../../css/MostrarListado.css';
 import { estatusProspectos } from '../../helpers/estatusProspectos';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { tipoUsuario } from '../../helpers/tipoUsuario';
 import { useHistory } from 'react-router-dom';
@@ -25,7 +26,9 @@ function ListadoProspectoVirtual({ datos }) {
     const loggedIn = useSelector(state => state.auth.loggedIn);
     const tipoUser = useSelector(state => state.auth.tipoUser);
     const history = useHistory();
+    const rutaActual2 = window.location.pathname;
 
+    
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -37,6 +40,7 @@ function ListadoProspectoVirtual({ datos }) {
 
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
+    const okRutaActual = rutaActual2 === '/';
 
     const evaluarOpcion = (id) => {
         
@@ -44,13 +48,19 @@ function ListadoProspectoVirtual({ datos }) {
         
     };
 
+    const verProspectoOpcion = (id) => {
+
+        history.push(`/prospecto/${id}`);
+
+    };
+    
+
     return (
-        <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+        <div style={{ maxHeight: '800px', overflowY: 'auto' }}>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
-                        <TableRow>
-                            <TableCell><strong>ID</strong></TableCell>
+                        <TableRow>                            
                             <TableCell><strong>Nombre</strong></TableCell>
                             <TableCell><strong>Primer Apellido</strong></TableCell>
                             <TableCell><strong>Segundo Apellido</strong></TableCell>
@@ -59,8 +69,7 @@ function ListadoProspectoVirtual({ datos }) {
                     </TableHead>
                     <TableBody>
                         {Array.isArray(datos) && datos.slice(startIndex, endIndex).map((dato) => (
-                            <TableRow key={dato.id}>
-                                <TableCell>{dato.id}</TableCell>
+                            <TableRow key={dato.id}>                                
                                 <TableCell>{dato.nombre}</TableCell>
                                 <TableCell>{dato.primer_apellido || dato.primerApellido}</TableCell>
                                 <TableCell>{dato.segundo_apellido || dato.segundoApellido}</TableCell>
@@ -78,15 +87,28 @@ function ListadoProspectoVirtual({ datos }) {
                                         <Button
                                             variant="outlined"
                                             color="blue"
-                                            startIcon={<DeleteIcon />}
+                                            startIcon={<EvaluarIcon />}
                                             onClick={() => evaluarOpcion(dato.prospectoId || dato.prospecto_id)}
                                         >
                                             Evaluar
                                         </Button>
                                     }
 
-                                    {loggedIn && tipoUser === tipoUsuario.PROMOTOR && 
-                                        <Link to={`/prospecto/${dato.prospecto_id||dato.prospectoId}`}>VER INF</Link>}
+                                    {!okRutaActual && loggedIn && tipoUser === tipoUsuario.PROMOTOR && 
+
+                                        <Button
+                                            variant="outlined"
+                                            color="blue"
+                                            fontSize="large"
+                                            startIcon={<VisibilityIcon />}
+                                            onClick={() => verProspectoOpcion(dato.prospectoId || dato.prospecto_id)}
+                                        >
+                                            Ver prospecto
+                                        </Button>
+                                    }
+
+
+                                        
                                     
 
 

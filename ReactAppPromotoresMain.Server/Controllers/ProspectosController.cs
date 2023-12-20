@@ -17,20 +17,6 @@ namespace ReactAppPromotores.Server.Controllers
             this.context = context;
         }
 
-        /*private readonly ApplicationDbContext _dbContext;
-
-        public ProspectosController(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }*/
-
-        // Simulación de una lista de prospectos (reemplazar con la lógica de tu aplicación)
-        /*private static List<Prospectos> prospectosList = new List<Prospectos>
-        {
-            new Prospectos { Id = 1, nombre = "Juan", primerApellido = "Pérez" },
-            new Prospectos { Id = 2, nombre = "María", primerApellido = "García" },
-            new Prospectos { Id = 3, nombre = "Carlos", primerApellido = "Martínez" }
-        };*/
 
         [HttpGet]
         [Route("last")]
@@ -47,10 +33,25 @@ namespace ReactAppPromotores.Server.Controllers
                 return BadRequest(ex.Message);
             }
             
-            //return Ok(prospectosList);
+            
         }
 
+        // GET: api/Prospectos/{prospecto_id}
+        [HttpGet("{prospecto_id}")]
+        [Route("last2")]
+        public IActionResult GetProspectoById(string prospecto_id)
+        {
+            var prospecto = context.prospectos
+                .Include(p => p.colonia)
+                .FirstOrDefault(p => p.prospecto_id == prospecto_id);
 
+            if (prospecto == null)
+            {
+                return NotFound(); // Devuelve 404 si no se encuentra el prospecto
+            }
+
+            return Ok(prospecto); // Devuelve 200 con el prospecto y sus elementos relacionados
+        }
 
     }
 }
